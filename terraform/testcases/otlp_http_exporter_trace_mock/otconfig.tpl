@@ -13,14 +13,16 @@ processors:
 exporters:
   logging:
     loglevel: debug
-  otlphttp:
+  otlphttp/1:
     traces_endpoint: "https://${mock_endpoint}"
     insecure: true
+  otlphttp/2:
+    traces_endpoint: SUMO_ENDPOINT
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [otlphttp]
+      exporters: [otlphttp/1, otlphttp/2]
   extensions: [pprof]
